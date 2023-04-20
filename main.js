@@ -12,6 +12,14 @@ let map = L.map("map").setView([
     stephansdom.lat, stephansdom.lng
 ], 12);
 
+// Thematische Layer
+let themaLayer = {
+    stops: L.featureGroup(),
+    lines: L.featureGroup(),
+    sights: L.featureGroup(),
+    zones: L.featureGroup()
+}
+
 // Hintergrundlayer
 let layerControl = L.control.layers({
     "BasemapAT Grau": L.tileLayer.provider("BasemapAT.grau").addTo(map),
@@ -21,12 +29,17 @@ let layerControl = L.control.layers({
     "BasemapAT Oberfläche": L.tileLayer.provider("BasemapAT.surface"),
     "BasemapAT Orthofoto": L.tileLayer.provider("BasemapAT.orthofoto"),
     "BasemapAT Beschriftung": L.tileLayer.provider("BasemapAT.overlay")
+},{
+    "Vienna Sightseeing Haltestellen": themaLayer.stops,
+    "Vienna Sightseeing Linie": themaLayer.lines,
+    "Vienna Sightseeing Fußgängerzonen": themaLayer.zones,
+    "Vienna Sightseeing Sehenswürdigkeiten": themaLayer.sights
 }).addTo(map);
 
 // Marker Stephansdom
-L.marker([
-    stephansdom.lat, stephansdom.lng
-]).addTo(map).bindPopup(stephansdom.title).openPopup();
+//L.marker([
+//    stephansdom.lat, stephansdom.lng
+//]).addTo(map).bindPopup(stephansdom.title).openPopup();
 
 // Maßstab
 L.control.scale({
@@ -55,7 +68,7 @@ async function showLines(url){
 showLines("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKLINIEVSLOGD&srsName=EPSG:4326&outputFormat=json");
 
 
-async function showShowSights(url){
+async function showSights(url){
     let response = await fetch(url);
     let jsondata = await response.json();
     L.geoJSON(jsondata).addTo(map);
