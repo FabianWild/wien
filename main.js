@@ -11,6 +11,7 @@ let stephansdom = {
 let map = L.map("map").setView([
     stephansdom.lat, stephansdom.lng
 ], 12);
+    map.addControl(new L.Control.Fullscreen());
 
 // Thematische Layer
 let themaLayer = {
@@ -53,6 +54,16 @@ async function showStops(url){
     let jsondata = await response.json();
     L.geoJSON(jsondata).addTo(themaLayer.stops)
     //console.log(response, jsondata)
+    L.geoJSON(jsondata, {
+        onEachFeature: function(feature, layer){
+            let prop = feature.properties;
+            layer.bindPopup(`
+            <h4><i class="fa-solid fa-bus"><a>&ensp;</a></i>${prop.LINE_NAME}</h4>
+            <address>${prop.STAT_ID}&ensp;${prop.STAT_NAME}</address>
+            `);
+            console.log(feature.properties, prop.LINE_NAME);
+        }
+    }).addTo(themaLayer.stops);
 }
 
 showStops("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKHTSVSLOGD&srsName=EPSG:4326&outputFormat=json");
@@ -63,6 +74,18 @@ async function showLines(url){
     let jsondata = await response.json();
     L.geoJSON(jsondata).addTo(themaLayer.lines)
     //console.log(response, jsondata)
+    L.geoJSON(jsondata, {
+        onEachFeature: function(feature, layer){
+            let prop = feature.properties;
+            layer.bindPopup(`
+            <h4><i class="fa-solid fa-bus"><a>&ensp;</a></i>${prop.LINE_NAME}</h4>
+            <address><i class="fa-regular fa-circle-stop"></i>${prop.FROM_NAME}</address>
+            <i class="fa-solid fa-arrow-down"></i>
+            <address><i class="fa-regular fa-circle-stop"></i>${prop.TO_NAME}</adress>
+            `);
+            console.log(feature.properties, prop.LINE_NAME);
+        }
+    }).addTo(themaLayer.lines);
 }
 
 showLines("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKLINIEVSLOGD&srsName=EPSG:4326&outputFormat=json");
@@ -94,6 +117,17 @@ async function showZones(url){
     let jsondata = await response.json();
     L.geoJSON(jsondata).addTo(themaLayer.zones)
     //console.log(response, jsondata)
+    L.geoJSON(jsondata, {
+        onEachFeature: function(feature, layer){
+            let prop = feature.properties;
+            layer.bindPopup(`
+            <h4>Fußgängerzone<a>&ensp;</a></i>${prop.ADRESSE}</h4>
+            <p><i class="fa-regular fa-clock"></i>&ensp;${prop.ZEITRAUM}</p>
+            <p><i class="fa-sharp fa-solid fa-circle-info"></i>&ensp;${prop.AUSN_TEXT}</p>
+            `);
+            console.log(feature.properties, prop.ADRESSE);
+        }
+    }).addTo(themaLayer.zones);
 }
 
 showZones("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:FUSSGEHERZONEOGD&srsName=EPSG:4326&outputFormat=json");
