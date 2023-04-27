@@ -55,6 +55,16 @@ async function showStops(url){
     L.geoJSON(jsondata).addTo(themaLayer.stops)
     //console.log(response, jsondata)
     L.geoJSON(jsondata, {
+        pointToLayer: function(feature, latlng) {
+            // L.marker(latlng).addTo(map);
+             return L.marker(latlng, {
+                 icon: L.icon({
+                     iconUrl: 'icons/bus.png',
+                     iconAnchor: [16, 37],
+                     popupAnchor: [0, -37],
+                 })
+             });
+         },
         onEachFeature: function(feature, layer){
             let prop = feature.properties;
             layer.bindPopup(`
