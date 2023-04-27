@@ -79,9 +79,9 @@ async function showLines(url){
             let prop = feature.properties;
             layer.bindPopup(`
             <h4><i class="fa-solid fa-bus"><a>&ensp;</a></i>${prop.LINE_NAME}</h4>
-            <address><i class="fa-regular fa-circle-stop"></i>${prop.FROM_NAME}</address>
+            <address><i class="fa-regular fa-circle-stop">&ensp;</i>${prop.FROM_NAME}</address>
             <i class="fa-solid fa-arrow-down"></i>
-            <address><i class="fa-regular fa-circle-stop"></i>${prop.TO_NAME}</adress>
+            <address><i class="fa-regular fa-circle-stop">&ensp;</i>${prop.TO_NAME}</adress>
             `);
             console.log(feature.properties, prop.LINE_NAME);
         }
