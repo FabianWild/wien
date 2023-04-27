@@ -100,10 +100,10 @@ async function showLines(url){
             <i class="fa-solid fa-arrow-down"></i>
             <address><i class="fa-regular fa-circle-stop">&ensp;</i>${prop.TO_NAME}</adress>
             `);
-            console.log(prop.LINE_NAME)
+            //console.log(prop.LINE_NAME)
             //console.log(feature.properties, prop.LINE_NAME);
             lineNames[prop.LINE_ID] = prop.LINE_NAME;
-            console.log(lineNames)
+            //console.log(lineNames)
         }
     }).addTo(themaLayer.lines);
 }
