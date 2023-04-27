@@ -54,7 +54,7 @@ L.control.scale({
 async function showStops(url){
     let response = await fetch(url);
     let jsondata = await response.json();
-    L.geoJSON(jsondata).addTo(themaLayer.stops)
+    L.geoJSON(jsondata)//addTo(themaLayer.stops)
     //console.log(response, jsondata)
     L.geoJSON(jsondata, {
         pointToLayer: function(feature, latlng) {
@@ -92,7 +92,7 @@ async function showLines(url){
         "5": "#AAAAAA", //'Grey Line', 
         "6": "#FF851B",  //'Orange Line'
     }
-    L.geoJSON(jsondata).addTo(themaLayer.lines)
+    L.geoJSON(jsondata)//addTo(themaLayer.lines)
     //console.log(response, jsondata)
     L.geoJSON(jsondata, 
     {
@@ -125,7 +125,7 @@ showLines("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&vers
 async function showSights(url){
     let response = await fetch(url);
     let jsondata = await response.json();
-    L.geoJSON(jsondata).addTo(themaLayer.sights)
+    L.geoJSON(jsondata)//addTo(themaLayer.sights)
     //console.log(response, jsondata)
     L.geoJSON(jsondata, {
         pointToLayer: function(feature, latlng) {
@@ -157,7 +157,7 @@ showSights("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&ver
 async function showZones(url){
     let response = await fetch(url);
     let jsondata = await response.json();
-    L.geoJSON(jsondata).addTo(themaLayer.zones)
+    L.geoJSON(jsondata)//addTo(themaLayer.zones)
     //console.log(response, jsondata)
     L.geoJSON(jsondata, {
             style: function (feature) {
@@ -186,7 +186,7 @@ showZones("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&vers
 async function showHotels(url){
     let response = await fetch(url);
     let jsondata = await response.json();
-    L.geoJSON(jsondata).addTo(themaLayer.sights)
+    L.geoJSON(jsondata)//addTo(themaLayer.hotels)
     //console.log(response, jsondata)
     L.geoJSON(jsondata, {
         pointToLayer: function(feature, latlng) {
@@ -208,8 +208,8 @@ async function showHotels(url){
             <hr></hr>
             Adr.: ${prop.ADRESSE} <br>
             Tel.: <a href = "tel:${prop.KONTAKT_TEL}">${prop.KONTAKT_TEL}</a><br>
-            Mail: <a href=mailto:${prop.KONTAKT_EMAIL}> ${prop.KONTAKT_EMAIL}</a><br>
-            Homepage: <a href=${prop.WEBLINK1}> Homepage </a>
+            Mail: <a href= "mailto:${prop.KONTAKT_EMAIL}"> ${prop.KONTAKT_EMAIL}</a><br>
+            Homepage: <a href="${prop.WEBLINK1}"> ${prop.WEBLINK1}</a>
           
 
             `);
