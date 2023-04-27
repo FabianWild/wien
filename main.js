@@ -10,14 +10,14 @@ let stephansdom = {
 // Karte initialisieren
 let map = L.map("map").setView([
     stephansdom.lat, stephansdom.lng
-], 12);
+], 15);
     map.addControl(new L.Control.Fullscreen());
 
 // Thematische Layer
 let themaLayer = {
     stops: L.featureGroup(),
-    lines: L.featureGroup(),
-    sights: L.featureGroup().addTo(map),
+    lines: L.featureGroup().addTo(map),
+    sights: L.featureGroup(),
     zones: L.featureGroup()
 }
 
@@ -72,9 +72,26 @@ showStops("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&vers
 async function showLines(url){
     let response = await fetch(url);
     let jsondata = await response.json();
+    let lineNames = {};
+    let lineColors = {
+        "1": "#FF4136", //'Red Line',
+        "2": "#FFDC00", //'Yellow Line', 
+        "3": "#0074D9", //'Blue Line', 
+        "4": "#2ECC40", //'Green Line', 
+        "5": "#AAAAAA", //'Grey Line', 
+        "6": "#FF851B",  //'Orange Line'
+    }
     L.geoJSON(jsondata).addTo(themaLayer.lines)
     //console.log(response, jsondata)
-    L.geoJSON(jsondata, {
+    L.geoJSON(jsondata, 
+    {
+            style: function (feature) {
+                return {
+                    color: lineColors[feature.properties.LINE_ID],
+                    weight: 3,
+                    dashArray:[10, 6]
+                };
+            },
         onEachFeature: function(feature, layer){
             let prop = feature.properties;
             layer.bindPopup(`
@@ -83,7 +100,10 @@ async function showLines(url){
             <i class="fa-solid fa-arrow-down"></i>
             <address><i class="fa-regular fa-circle-stop">&ensp;</i>${prop.TO_NAME}</adress>
             `);
+            console.log(prop.LINE_NAME)
             //console.log(feature.properties, prop.LINE_NAME);
+            lineNames[prop.LINE_ID] = prop.LINE_NAME;
+            console.log(lineNames)
         }
     }).addTo(themaLayer.lines);
 }
