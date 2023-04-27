@@ -16,8 +16,8 @@ let map = L.map("map").setView([
 // Thematische Layer
 let themaLayer = {
     stops: L.featureGroup(),
-    lines: L.featureGroup().addTo(map),
-    sights: L.featureGroup(),
+    lines: L.featureGroup(),
+    sights: L.featureGroup().addTo(map),
     zones: L.featureGroup()
 }
 
