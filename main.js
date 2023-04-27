@@ -17,8 +17,9 @@ let map = L.map("map").setView([
 let themaLayer = {
     stops: L.featureGroup(),
     lines: L.featureGroup(),
-    sights: L.featureGroup().addTo(map),
-    zones: L.featureGroup()
+    sights: L.featureGroup(),
+    zones: L.featureGroup(),
+    hotels: L.featureGroup().addTo(map)
 }
 
 // Hintergrundlayer
@@ -34,7 +35,8 @@ let layerControl = L.control.layers({
     "Vienna Sightseeing Haltestellen": themaLayer.stops,
     "Vienna Sightseeing Linie": themaLayer.lines,
     "Vienna Sightseeing Fußgängerzonen": themaLayer.zones,
-    "Vienna Sightseeing Sehenswürdigkeiten": themaLayer.sights
+    "Vienna Sightseeing Sehenswürdigkeiten": themaLayer.sights,
+    "Vienna Sightseeing Hotels": themaLayer.hotels
 }).addTo(map);
 
 // Marker Stephansdom
@@ -56,10 +58,9 @@ async function showStops(url){
     //console.log(response, jsondata)
     L.geoJSON(jsondata, {
         pointToLayer: function(feature, latlng) {
-            // L.marker(latlng).addTo(map);
              return L.marker(latlng, {
                  icon: L.icon({
-                     iconUrl: 'icons/bus.png',
+                     iconUrl: `icons/bus_${feature.properties.LINE_ID}.png`,
                      iconAnchor: [16, 37],
                      popupAnchor: [0, -37],
                  })
@@ -180,3 +181,41 @@ async function showZones(url){
 }
 
 showZones("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:FUSSGEHERZONEOGD&srsName=EPSG:4326&outputFormat=json");
+
+
+async function showHotels(url){
+    let response = await fetch(url);
+    let jsondata = await response.json();
+    L.geoJSON(jsondata).addTo(themaLayer.sights)
+    //console.log(response, jsondata)
+    L.geoJSON(jsondata, {
+        pointToLayer: function(feature, latlng) {
+           // L.marker(latlng).addTo(map);
+            return L.marker(latlng, {
+                icon: L.icon({
+                    iconUrl: 'icons/hotel.png',
+                    iconAnchor: [16, 37],
+                    popupAnchor: [0, -37],
+                })
+            });
+        },
+
+        onEachFeature: function(feature, layer){
+            let prop = feature.properties;
+            layer.bindPopup(`
+            <h3>${prop.BETRIEB}</h3>
+            <h4>${prop.BETRIEBSART_TXT}&ensp;${prop.KATEGORIE_TXT}</h4>
+            <hr></hr>
+            Adr.: ${prop.ADRESSE} <br>
+            Tel.: <a href = "tel:${prop.KONTAKT_TEL}">${prop.KONTAKT_TEL}</a><br>
+            Mail: <a href=mailto:${prop.KONTAKT_EMAIL}> ${prop.KONTAKT_EMAIL}</a><br>
+            Homepage: <a href=${prop.WEBLINK1}> Homepage </a>
+          
+
+            `);
+            //console.log(feature.properties, prop.NAME);
+        }
+    }).addTo(themaLayer.hotels);
+}
+
+showHotels("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:UNTERKUNFTOGD&srsName=EPSG:4326&outputFormat=json")
