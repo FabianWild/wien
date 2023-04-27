@@ -61,7 +61,7 @@ async function showStops(url){
             <h4><i class="fa-solid fa-bus"><a>&ensp;</a></i>${prop.LINE_NAME}</h4>
             <address>${prop.STAT_ID}&ensp;${prop.STAT_NAME}</address>
             `);
-            console.log(feature.properties, prop.LINE_NAME);
+            //console.log(feature.properties, prop.LINE_NAME);
         }
     }).addTo(themaLayer.stops);
 }
@@ -83,7 +83,7 @@ async function showLines(url){
             <i class="fa-solid fa-arrow-down"></i>
             <address><i class="fa-regular fa-circle-stop">&ensp;</i>${prop.TO_NAME}</adress>
             `);
-            console.log(feature.properties, prop.LINE_NAME);
+            //console.log(feature.properties, prop.LINE_NAME);
         }
     }).addTo(themaLayer.lines);
 }
@@ -104,7 +104,7 @@ async function showSights(url){
             <h4><a ref = "${prop.WEITERE_INF}" target = "Wien">${prop.NAME}</a></h4>
             <address>${prop.ADRESSE}</address>
             `);
-            console.log(feature.properties, prop.NAME);
+            //console.log(feature.properties, prop.NAME);
         }
     }).addTo(themaLayer.sights);
 }
@@ -125,7 +125,7 @@ async function showZones(url){
             <p><i class="fa-regular fa-clock"></i>&ensp;${prop.ZEITRAUM || "dauerhaft"}</p>
             <p><i class="fa-sharp fa-solid fa-circle-info"></i>&ensp;${prop.AUSN_TEXT || "keine Ausnahmen"}</p>
             `);
-            console.log(feature.properties, prop.ADRESSE);
+            //console.log(feature.properties, prop.ADRESSE);
         }
     }).addTo(themaLayer.zones);
 }
