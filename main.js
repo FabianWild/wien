@@ -12,6 +12,8 @@ let map = L.map("map").setView([
     stephansdom.lat, stephansdom.lng
 ], 15);
     map.addControl(new L.Control.Fullscreen());
+// Leaflet Hash
+new L.Hash(map);
 
 // Thematische Layer
 let themaLayer = {
