@@ -190,14 +190,30 @@ async function showHotels(url){
     //console.log(response, jsondata)
     L.geoJSON(jsondata, {
         pointToLayer: function(feature, latlng) {
+            let prop = feature.properties;
+            let hotelStars = prop.KATEGORIE_TXT;
            // L.marker(latlng).addTo(map);
-            return L.marker(latlng, {
-                icon: L.icon({
-                    iconUrl: 'icons/hotel.png',
-                    iconAnchor: [16, 37],
-                    popupAnchor: [0, -37],
-                })
-            });
+           if (hotelStars === "1*"){
+                return L.marker(latlng, {icon: L.icon({iconUrl: 'icons/hotel_1star.png', iconAnchor: [16, 37], popupAnchor: [0, -37],})});
+            } else if (hotelStars === "2*"){
+                return L.marker(latlng, {icon: L.icon({iconUrl: 'icons/hotel_2stars.png', iconAnchor: [16, 37], popupAnchor: [0, -37],})}); 
+                   
+            } else if (hotelStars === "3*"){
+                return L.marker(latlng, {icon: L.icon({iconUrl: 'icons/hotel_3stars.png', iconAnchor: [16, 37], popupAnchor: [0, -37],})}); 
+                   
+            } else if (hotelStars === "4*"){
+                return L.marker(latlng, {icon: L.icon({iconUrl: 'icons/hotel_4stars.png', iconAnchor: [16, 37], popupAnchor: [0, -37],})}); 
+                   
+            } else if (hotelStars === "5*"){
+                return L.marker(latlng, {icon: L.icon({iconUrl: 'icons/hotel_5stars.png', iconAnchor: [16, 37], popupAnchor: [0, -37],})}); 
+                    
+            } else if (hotelStars === "nicht kategorisiert"){
+                return L.marker(latlng, {icon: L.icon({iconUrl: 'icons/hotel_0star.png', iconAnchor: [16, 37], popupAnchor: [0, -37],})}); 
+                    
+            } else {
+                return L.marker(latlng, {icon: L.icon({iconUrl: 'icons/hotel.png', iconAnchor: [16, 37], popupAnchor: [0, -37],})}); 
+                    
+            }
         },
 
         onEachFeature: function(feature, layer){
