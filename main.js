@@ -19,7 +19,7 @@ let themaLayer = {
     lines: L.featureGroup(),
     sights: L.featureGroup(),
     zones: L.featureGroup(),
-    hotels: L.featureGroup().addTo(map)
+    hotels: L.markerClusterGroup({disableClusteringAtZoom: 17})
 }
 
 // Hintergrundlayer
@@ -36,7 +36,7 @@ let layerControl = L.control.layers({
     "Vienna Sightseeing Linie": themaLayer.lines,
     "Vienna Sightseeing Fußgängerzonen": themaLayer.zones,
     "Vienna Sightseeing Sehenswürdigkeiten": themaLayer.sights,
-    "Vienna Sightseeing Hotels": themaLayer.hotels
+    "Vienna Sightseeing Hotels": themaLayer.hotels.addTo(map)
 }).addTo(map);
 
 // Marker Stephansdom
